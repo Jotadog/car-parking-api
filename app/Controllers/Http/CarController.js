@@ -1,10 +1,10 @@
-"use strict";
+'use strict'
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
-const Car = use("App/Models/Car");
+const Car = use('App/Models/Car')
 
 /**
  * Resourceful controller for interacting with cars
@@ -15,11 +15,12 @@ class CarController {
    * GET cars
    *
    * @param {object} ctx
-   * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async index({ request, response }) {
-    return response.json(await Car.all());
+  async index({ response }) {
+    const cars = await Car.all()
+
+    return response.json({ cars })
   }
 
   /**
@@ -31,14 +32,14 @@ class CarController {
    * @param {Response} ctx.response
    */
   async store({ request, response }) {
-    const { plate, description, personId: person_id } = request.all();
+    const { plate, description, personId: person_id } = request.all()
     const car = await Car.create({
       plate,
       description,
-      person_id
-    });
+      person_id,
+    })
 
-    return response.json(car);
+    return response.json(car)
   }
 
   /**
@@ -50,8 +51,8 @@ class CarController {
    * @param {Response} ctx.response
    */
   async show({ params, request, response }) {
-    const car = await Car.find(params);
-    return response.json(car);
+    const car = await Car.find(params)
+    return response.json(car)
   }
 
   /**
@@ -75,4 +76,4 @@ class CarController {
   async destroy({ params, request, response }) {}
 }
 
-module.exports = CarController;
+module.exports = CarController

@@ -1,4 +1,4 @@
-"use strict";
+'use strict'
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
@@ -15,11 +15,11 @@ class AuthController {
    * @param {Response} ctx.response
    */
   async login({ auth, request, response }) {
-    const { email, password } = request.all();
+    const { email, password } = request.all()
 
-    const token = await auth.attempt(email, password);
+    const token = await auth.attempt(email, password)
 
-    return response.json(token);
+    return response.json(token)
   }
 
   /**
@@ -32,11 +32,11 @@ class AuthController {
    */
   async check({ auth, response }) {
     try {
-      return response.json(await auth.check());
+      return response.json(await auth.check())
     } catch (error) {
-      return response.json(false);
+      return response.json(false)
     }
   }
 }
 
-module.exports = AuthController;
+module.exports = AuthController

@@ -1,49 +1,49 @@
-"use strict";
+'use strict'
 
-const { test, trait } = use("Test/Suite")("Login");
+const { test, trait } = use('Test/Suite')('Login')
 
 /** @type {import('@adonisjs/lucid/src/Factory')} */
-const Factory = use("Factory");
+const Factory = use('Factory')
 
-trait("Test/ApiClient");
+trait('Test/ApiClient')
 
-test("successful login try returning a jwt token", async ({
+test('successful login try returning a jwt token', async ({
   client,
-  assert
+  assert,
 }) => {
   const userData = {
-    password: "123456"
-  };
+    password: '123456',
+  }
 
-  const user = await Factory.model("App/Models/User").create(userData);
+  const user = await Factory.model('App/Models/User').create(userData)
 
   const response = await client
-    .post("login")
+    .post('login')
     .send({
       email: user.email,
-      password: userData.password
+      password: userData.password,
     })
-    .end();
+    .end()
 
-  response.assertStatus(200);
+  response.assertStatus(200)
 
-  assert.exists(response.body.token);
-});
+  assert.exists(response.body.token)
+})
 
-test("unsuccessful login try with wrong password", async ({ client }) => {
+test('unsuccessful login try with wrong password', async ({ client }) => {
   const userData = {
-    password: "123456"
-  };
+    password: '123456',
+  }
 
-  const user = await Factory.model("App/Models/User").create(userData);
+  const user = await Factory.model('App/Models/User').create(userData)
 
   const response = await client
-    .post("login")
+    .post('login')
     .send({
       email: user.email,
-      password: "123"
+      password: '123',
     })
-    .end();
+    .end()
 
-  response.assertStatus(401);
-});
+  response.assertStatus(401)
+})
