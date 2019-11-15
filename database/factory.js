@@ -41,3 +41,13 @@ Factory.blueprint('App/Models/Section', async (faker, _i, data) => {
     ...data,
   }
 })
+
+Factory.blueprint('App/Models/Car', async (faker, _i, data) => {
+  const person = await Factory.model('App/Models/User').create()
+
+  return {
+    plate: faker.string({ length: 7 }),
+    description: faker.sentence({ words: 10 }),
+    person_id: person.id,
+  }
+})

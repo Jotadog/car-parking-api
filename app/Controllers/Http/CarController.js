@@ -39,7 +39,7 @@ class CarController {
       person_id,
     })
 
-    return response.json(car)
+    return response.json({ car })
   }
 
   /**
@@ -47,12 +47,11 @@ class CarController {
    * GET cars/:id
    *
    * @param {object} ctx
-   * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async show({ params, request, response }) {
-    const car = await Car.find(params)
-    return response.json(car)
+  async show({ params, response }) {
+    const car = await Car.find(params.id)
+    return response.json({ car })
   }
 
   /**
@@ -63,7 +62,13 @@ class CarController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update({ params, request, response }) {}
+  async update({ params, request, response }) {
+    const car = await Car.find(params.id)
+    car.merge(request.all())
+    await car.save()
+
+    return response.json({ car })
+  }
 
   /**
    * Delete a car with id.
@@ -73,7 +78,13 @@ class CarController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy({ params, request, response }) {}
+  async destroy({ params, response }) {
+    const car = await Car.find(params.id)
+
+    const success = await car.delete()
+
+    return response.json({ success })
+  }
 }
 
 module.exports = CarController
