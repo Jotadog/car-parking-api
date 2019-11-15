@@ -4,6 +4,9 @@
 const Model = use('Model')
 
 class Section extends Model {
+  parking() {
+    return this.belongsTo('App/Models/Parking')
+  }
 }
 
 module.exports = Section

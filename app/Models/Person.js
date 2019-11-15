@@ -4,6 +4,9 @@
 const Model = use('Model')
 
 class Person extends Model {
+  cars() {
+    return this.belongsToMany('App/Models/Car')
+  }
 }
 
 module.exports = Person
