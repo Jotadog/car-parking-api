@@ -20,3 +20,4 @@ Route.post('/login', 'AuthController.login')
 
 Route.resource('/cars', 'CarController').apiOnly()
 Route.resource('/people', 'PersonController').apiOnly()
+Route.resource('/sections', 'SectionController').apiOnly()

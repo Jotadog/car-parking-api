@@ -4,6 +4,9 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
+/** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
+const Section = use('App/Models/Section')
+
 /**
  * Resourceful controller for interacting with sections
  */
@@ -13,23 +16,11 @@ class SectionController {
    * GET sections
    *
    * @param {object} ctx
-   * @param {Request} ctx.request
    * @param {Response} ctx.response
-   * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
-  }
-
-  /**
-   * Render a form to be used for creating a new section.
-   * GET sections/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create ({ request, response, view }) {
+  async index({ response }) {
+    const sections = await Section.all()
+    return response.json({ sections })
   }
 
   /**
@@ -40,7 +31,9 @@ class SectionController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
+  async store({ request, response }) {
+    const section = await Section.create(request.only(['name', 'vacancies']))
+    return response.json({ section })
   }
 
   /**
@@ -48,23 +41,11 @@ class SectionController {
    * GET sections/:id
    *
    * @param {object} ctx
-   * @param {Request} ctx.request
    * @param {Response} ctx.response
-   * @param {View} ctx.view
    */
-  async show ({ params, request, response, view }) {
-  }
-
-  /**
-   * Render a form to update an existing section.
-   * GET sections/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit ({ params, request, response, view }) {
+  async show({ params, response }) {
+    const section = await Section.find(params.id)
+    return response.json({ section })
   }
 
   /**
@@ -75,7 +56,12 @@ class SectionController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update ({ params, request, response }) {
+  async update({ params, request, response }) {
+    const section = await Section.find(params.id)
+    section.merge(request.all())
+    await section.save()
+
+    return response.json({ section })
   }
 
   /**
@@ -83,10 +69,14 @@ class SectionController {
    * DELETE sections/:id
    *
    * @param {object} ctx
-   * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy ({ params, request, response }) {
+  async destroy({ params, response }) {
+    const section = await Section.find(params.id)
+
+    const success = await section.delete()
+
+    return response.json({ success })
   }
 }
 

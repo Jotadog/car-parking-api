@@ -17,7 +17,7 @@ const Factory = use('Factory')
 /** @type {import('@adonisjs/framework/src/Hash')} */
 const Hash = use('Hash')
 
-Factory.blueprint('App/Models/User', async (faker, i, data) => {
+Factory.blueprint('App/Models/User', async (faker, _i, data) => {
   return {
     email: faker.email({ domain: 'gmail.com' }),
     password: await Hash.make(faker.word()),
@@ -25,11 +25,19 @@ Factory.blueprint('App/Models/User', async (faker, i, data) => {
   }
 })
 
-Factory.blueprint('App/Models/Person', async (faker, i, data) => {
+Factory.blueprint('App/Models/Person', async (faker, _i, data) => {
   return {
     name: faker.name(),
     cpf: faker.cpf(),
     phone: faker.phone(),
+    ...data,
+  }
+})
+
+Factory.blueprint('App/Models/Section', async (faker, _i, data) => {
+  return {
+    name: faker.word(),
+    vacancies: 15,
     ...data,
   }
 })

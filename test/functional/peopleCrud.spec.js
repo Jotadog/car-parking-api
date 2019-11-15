@@ -17,7 +17,7 @@ test('list all people registered', async ({ client, assert }) => {
   assert.exists(people)
 })
 
-test('store a new person and return its data', async ({ client, assert }) => {
+test('store a new person', async ({ client, assert }) => {
   const response = await client
     .post('people')
     .send({
@@ -41,7 +41,7 @@ test('show the person with provided id', async ({ client, assert }) => {
   const { person } = response.body
 
   response.assertStatus(200)
-  assert.exists(person)
+  assert.deepEqual(personData.toJSON(), person)
 })
 
 test('update the person with provided id', async ({ client, assert }) => {
@@ -63,7 +63,7 @@ test('update the person with provided id', async ({ client, assert }) => {
   assert.equal(name, person.name)
 })
 
-test('delete a person with provided id', async ({ client, assert }) => {
+test('delete the person with provided id', async ({ client, assert }) => {
   const personData = await Factory.model('App/Models/Person').create()
 
   const response = await client.delete(`people/${personData.id}`).end()
