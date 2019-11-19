@@ -2,7 +2,9 @@
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
-/** @typedef {import('@adonisjs/framework/src/View')} View */
+
+/** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
+const Parking = use('App/Models/Parking')
 
 /**
  * Resourceful controller for interacting with parkings
@@ -13,23 +15,12 @@ class ParkingController {
    * GET parkings
    *
    * @param {object} ctx
-   * @param {Request} ctx.request
    * @param {Response} ctx.response
-   * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
-  }
+  async index({ response }) {
+    const parkings = await Parking.all()
 
-  /**
-   * Render a form to be used for creating a new parking.
-   * GET parkings/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create ({ request, response, view }) {
+    return response.json({ parkings })
   }
 
   /**
@@ -40,7 +31,14 @@ class ParkingController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
+  async store({ request, response }) {
+    const { carId: car_id, sectionId: section_id } = request.all()
+    const parking = await Parking.create({
+      car_id,
+      section_id,
+    })
+
+    return response.json({ parking })
   }
 
   /**
@@ -50,22 +48,8 @@ class ParkingController {
    * @param {object} ctx
    * @param {Request} ctx.request
    * @param {Response} ctx.response
-   * @param {View} ctx.view
    */
-  async show ({ params, request, response, view }) {
-  }
-
-  /**
-   * Render a form to update an existing parking.
-   * GET parkings/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit ({ params, request, response, view }) {
-  }
+  async show({ params, request, response }) {}
 
   /**
    * Update parking details.
@@ -75,18 +59,21 @@ class ParkingController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update ({ params, request, response }) {
-  }
+  async update({ params, request, response }) {}
 
   /**
    * Delete a parking with id.
    * DELETE parkings/:id
    *
    * @param {object} ctx
-   * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy ({ params, request, response }) {
+  async destroy({ params, response }) {
+    const parking = await Parking.find(params.id)
+
+    const success = await parking.delete()
+
+    return response.json({ success })
   }
 }
 

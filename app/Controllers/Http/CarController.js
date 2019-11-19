@@ -18,7 +18,9 @@ class CarController {
    * @param {Response} ctx.response
    */
   async index({ response }) {
-    const cars = await Car.all()
+    const cars = await Car.query()
+      .with('person')
+      .fetch()
 
     return response.json({ cars })
   }

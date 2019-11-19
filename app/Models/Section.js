@@ -4,8 +4,8 @@
 const Model = use('Model')
 
 class Section extends Model {
-  parking() {
-    return this.belongsTo('App/Models/Parking')
+  parkings() {
+    return this.hasMany('App/Models/Parking')
   }
 }
 

@@ -20,6 +20,7 @@ class SectionController {
    */
   async index({ response }) {
     const sections = await Section.all()
+
     return response.json({ sections })
   }
 
@@ -45,6 +46,7 @@ class SectionController {
    */
   async show({ params, response }) {
     const section = await Section.find(params.id)
+    await section.load('parkings')
     return response.json({ section })
   }
 

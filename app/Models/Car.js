@@ -5,7 +5,7 @@ const Model = use('Model')
 
 class Car extends Model {
   person() {
-    return this.hasOne('App/Models/Person')
+    return this.belongsTo('App/Models/Person')
   }
 
   parking() {

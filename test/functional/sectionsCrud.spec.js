@@ -37,6 +37,9 @@ test('store a new section', async ({ client, assert }) => {
 
 test('show the section with the provided id', async ({ client, assert }) => {
   const sectionData = await Factory.model('App/Models/Section').create()
+  await Factory.model('App/Models/Parking').createMany(5, {
+    section_id: sectionData.id,
+  })
 
   const response = await client.get(`sections/${sectionData.id}`).end()
 
@@ -44,8 +47,10 @@ test('show the section with the provided id', async ({ client, assert }) => {
 
   const { section } = response.body
 
-  assert.deepEqual(sectionData.toJSON(), section)
-})
+  assert.exists(section)
+  assert.exists(section.parkings)
+  assert.isAtLeast(section.parkings.length, 5)
+}).timeout(0)
 
 test('update the section with the provided id', async ({ client, assert }) => {
   const sectionData = await Factory.model('App/Models/Section').create()
