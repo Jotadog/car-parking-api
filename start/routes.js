@@ -17,6 +17,7 @@
 const Route = use('Route')
 
 Route.post('/login', 'AuthController.login')
+Route.post('/users', 'UserController.store')
 
 Route.resource('/cars', 'CarController').apiOnly()
 Route.resource('/people', 'PersonController').apiOnly()

@@ -5,11 +5,11 @@ const Model = use('Model')
 
 class Parking extends Model {
   car() {
-    return this.hasOne('App/Models/Car')
+    return this.belongsTo('App/Models/Car')
   }
 
   section() {
-    return this.hasOne('App/Models/Section')
+    return this.belongsTo('App/Models/Section')
   }
 }
 

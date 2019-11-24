@@ -46,7 +46,7 @@ class SectionController {
    */
   async show({ params, response }) {
     const section = await Section.find(params.id)
-    await section.load('parkings')
+    await section.load('parkings.car')
     return response.json({ section })
   }
 

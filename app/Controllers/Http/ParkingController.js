@@ -18,7 +18,9 @@ class ParkingController {
    * @param {Response} ctx.response
    */
   async index({ response }) {
-    const parkings = await Parking.all()
+    const parkings = await Parking.query()
+      .with('car')
+      .fetch()
 
     return response.json({ parkings })
   }
