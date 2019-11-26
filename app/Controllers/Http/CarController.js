@@ -53,6 +53,7 @@ class CarController {
    */
   async show({ params, response }) {
     const car = await Car.find(params.id)
+    await car.load('person')
     return response.json({ car })
   }
 
